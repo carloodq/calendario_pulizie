@@ -1,0 +1,106 @@
+# Prompt Aggiornato per Generazione Codice Python
+
+Sarai responsabile per creare i turni di pulizie di una scuola, assegnando i collaboratori a delle postazioni.
+
+Voglio che tu crei un codice Python per generare un dataframe Pandas con il calendario della scuola.
+
+Ci sono in totale 51 collaboratori e 51 postazioni.
+
+Ogni postazione appartiene ad un reparto, che comprende più postazioni.
+
+## Turni
+I turni durante la settimana sono mattina o pomeriggio.
+A rotazione un collaboratore di quel reparto sarà il responsabile per il turno della mattina per la settimana. 
+Inserisci una logica di rotazione che assegna settimanalmente il turno mattina ad uno tra i collaboratori di un reparto. 
+
+## Durata
+Crea un calendario per tutte le settimane dalla settimana 15-21 settembre 2025 alla settimana 29-5 Luglio 2026. L'identificativo della settimana deve essere "data del lunedì-data della domenica" eg "15/09/2025-21/09/2025"
+
+## Postazioni per reparto
+Ecco in seguito i reparti e le rispettive postazioni (reparto: n_postazioni)
+
+```
+{'207': 2, '208/218BIS': 2, '261/251': 2, '222': 2, '228': 6, '224': 1, '245': 2, '203': 2, 'PAGODA 209': 2, 'CEDRI 251': 3, '236': 2, '217': 2, '237': 2, '250': 1, '218': 1, 'PD': 4, 'PN': 3, 'SN': 1, '201 M': 1, '240 G': 1, '230 T': 2, '243': 7}
+```
+
+## Collaboratori
+I collaboratori sono:
+DONATO
+STRINA 
+QUARANTA MG
+MUSUMECI
+TRAMONTANA
+BRUNELLI
+NADDEI
+PRINCIPATO
+BRUNI
+RUGGIERO 
+DARIMINI
+GIUSTI
+DONNARUMMA
+CHIARION
+SUPPLENTE
+RONCONI
+BAGLIVO
+ERBISTI 
+PERRELLA
+BALLETTA
+INGARGIOLA 
+PERASOLE
+TODISCO
+QUARANTA S
+ANGELONE
+ANNINO
+DI DIO 
+SCALIA
+ORLANDO
+SALERNO 
+COTRONEO
+SUPPLENTE 30H
+GRECO
+MONACO 
+NAPPI 
+PASQUINO
+RUSSO
+VITIELLO
+MIRARCHI
+SCALA
+PENSOSI
+VARGAS(su Di Francia)
+DI ROSA
+MATTIELLO
+CARDONA
+DE ROSA
+IMPIOMBATO
+SPERA 
+SALADINO
+Suppl3
+Suppl4
+
+## Struttura del Dataframe
+Il dataframe deve avere queste colonne:
+collaboratore, reparto, periodo, turno
+
+## Domeniche
+Voglio anche aggiungere le domeniche. Queste avranno lo stesso formato, ma "periodo" indicherà semplicemente la data di quella domenica.
+Per la domenica ci sono 3 turni: mattina, pomeriggio e sera.
+Le domeniche vengono assegnate a rotazione su tutti i collaboratori esclusi ANGELONE, TRAMONTANA, CHIARION, RONCONI
+Devo assicurarmi che chi copre il turno sera della domenica non abbia il turno mattina per la settimana successiva.
+
+## Preferenze reparti
+- RUGGIERO, DARIMINI, GIUSTI, DONNARUMMA, CHIARION in reparto 228
+- TODISCO, QUARANTA S, ANGELONE in reparto CEDRI 251
+
+## Preferenze solo mattina
+COTRONEO, GRECO
+
+## Preferenze solo mattina e pomeriggio
+ANGELONE, TRAMONTANA, CHIARION, RONCONI
+
+## Portineria notturna
+Per il reparto PN ci sono 3 tipologie di turni: mattina, pomeriggio e sera. I collaboratori per questo reparto devono essere BRUNELLI, NADDEI, RUSSO. I turni devono andare a rotazione settimanale.
+
+## Output
+Il dataframe deve essere salvato come .csv con nome turni.csv
+
+Il codice deve essere pronto da eseguire e deve creare il file .csv
