@@ -12,10 +12,10 @@ import subprocess
 os.environ['ANTHROPIC_API_KEY'] = st.secrets["ANTHROPIC_API_KEY"]
 
 
-with open("turni_prompt.txt", encoding="utf-8") as file:
+with open("turni_prompt.txt", encoding="latin-1") as file:
     final_prompt = file.read()
 
-with open("extracted_info_from_prompt.txt") as file:
+with open("extracted_info_from_prompt.txt", encoding="latin-1") as file:
     extracted_info_from_prompt = file.read()
 
 
@@ -108,7 +108,7 @@ def effettua_modifica_calendario(modifica_richiesta):
 
     print('my_code', new_prompt)
 
-    with open("turni_prompt.txt", "w") as file:
+    with open("turni_prompt.txt", "w", encoding="latin-1") as file:
         file.write(str(new_prompt))
 
 
@@ -132,7 +132,7 @@ def effettua_modifica_calendario(modifica_richiesta):
 
     print('extracted_info', extracted_info)
 
-    with open("extracted_info_from_prompt.txt", "w") as file:
+    with open("extracted_info_from_prompt.txt", "w", encoding="latin-1") as file:
         file.write(str(extracted_info))
 
 
