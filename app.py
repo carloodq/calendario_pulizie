@@ -12,7 +12,7 @@ import subprocess
 os.environ['ANTHROPIC_API_KEY'] = st.secrets["ANTHROPIC_API_KEY"]
 
 
-with open("turni_prompt.txt") as file:
+with open("turni_prompt.txt", encoding="utf-8") as file:
     final_prompt = file.read()
 
 with open("extracted_info_from_prompt.txt") as file:
