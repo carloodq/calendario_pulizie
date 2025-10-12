@@ -8,6 +8,7 @@ from langchain_anthropic import ChatAnthropic
 
 import os
 import subprocess
+import sys
 
 os.environ['ANTHROPIC_API_KEY'] = st.secrets["ANTHROPIC_API_KEY"]
 
@@ -146,7 +147,8 @@ def effettua_modifica_calendario(modifica_richiesta):
 
 if st.button("Modifica calendario"):
     effettua_modifica_calendario(text_input)
-    result = subprocess.run(["python", "make_schedule2.py"], capture_output=True, text=True)
+    # result = subprocess.run(["python", "make_schedule2.py"], capture_output=True, text=True)
+    subprocess.run([f"{sys.executable}", "make_schedule2.py"])
 
     
 

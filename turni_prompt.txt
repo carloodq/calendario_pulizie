@@ -34,7 +34,7 @@ BRUNELLI
 NADDEI
 PRINCIPATO
 BRUNI
-RUGGIERO 
+RIGGIERO
 DARIMINI
 GIUSTI
 DONNARUMMA
@@ -88,7 +88,7 @@ Le domeniche vengono assegnate a rotazione su tutti i collaboratori esclusi ANGE
 Devo assicurarmi che chi copre il turno sera della domenica non abbia il turno mattina per la settimana successiva.
 
 ## Preferenze reparti
-- RUGGIERO, DARIMINI, GIUSTI, DONNARUMMA, CHIARION in reparto 228
+- RIGGIERO, DARIMINI, GIUSTI, DONNARUMMA, CHIARION in reparto 228
 - TODISCO, QUARANTA S, ANGELONE in reparto CEDRI 251
 
 ## Preferenze solo mattina

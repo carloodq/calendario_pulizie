@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 collaboratori = [
     "DONATO", "STRINA", "QUARANTA MG", "MUSUMECI", "TRAMONTANA", "BRUNELLI",
-    "NADDEI", "PRINCIPATO", "BRUNI", "RUGGIERO", "DARIMINI", "GIUSTI",
+    "NADDEI", "PRINCIPATO", "BRUNI", "RIGGIERO", "DARIMINI", "GIUSTI",
     "DONNARUMMA", "CHIARION", "SUPPLENTE", "RONCONI", "BAGLIVO", "ERBISTI",
     "PERRELLA", "BALLETTA", "INGARGIOLA", "PERASOLE", "TODISCO", "QUARANTA S",
     "ANGELONE", "ANNINO", "DI DIO", "SCALIA", "ORLANDO", "SALERNO",
@@ -20,7 +20,7 @@ reparti_postazioni = {
     '240 G': 1, '230 T': 2, '243': 7
 }
 
-reparto_228 = ["RUGGIERO", "DARIMINI", "GIUSTI", "DONNARUMMA", "CHIARION"]
+reparto_228 = ["RIGGIERO", "DARIMINI", "GIUSTI", "DONNARUMMA", "CHIARION"]
 reparto_cedri = ["TODISCO", "QUARANTA S", "ANGELONE"]
 reparto_pn = ["BRUNELLI", "NADDEI", "RUSSO"]
 solo_mattina = ["COTRONEO", "GRECO"]

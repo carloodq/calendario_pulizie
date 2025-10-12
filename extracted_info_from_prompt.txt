@@ -1,30 +1,28 @@
-# Descrizione del Programma di Gestione Turni
+# Descrizione del Programma di Gestione Turni Scolastici
 
 Questo programma crea i turni di pulizie di una scuola, assegnando i collaboratori a delle postazioni.
 
-Il programma genera un calendario della scuola con l'assegnazione dei turni.
-
-Ci sono in totale 51 collaboratori e 51 postazioni.
+Il programma genera un calendario della scuola con 51 collaboratori e 51 postazioni.
 
 Ogni postazione appartiene ad un reparto, che comprende più postazioni.
 
 ## Turni
 I turni durante la settimana sono mattina o pomeriggio.
-A rotazione un collaboratore di quel reparto è il responsabile per il turno della mattina per la settimana. 
-Il programma include una logica di rotazione che assegna settimanalmente il turno mattina ad uno tra i collaboratori di un reparto.
+A rotazione un collaboratore di quel reparto viene designato come responsabile per il turno della mattina per la settimana. 
+Il programma implementa una logica di rotazione che assegna settimanalmente il turno mattina ad uno tra i collaboratori di un reparto.
 
 ## Durata
-Il programma crea un calendario per tutte le settimane dalla settimana 15-21 settembre 2025 alla settimana 29-5 Luglio 2026. L'identificativo della settimana è "data del lunedì-data della domenica" eg "15/09/2025-21/09/2025"
+Il programma crea un calendario per tutte le settimane dalla settimana 15-21 settembre 2025 alla settimana 29-5 Luglio 2026. L'identificativo della settimana è nel formato "data del lunedì-data della domenica" eg "15/09/2025-21/09/2025"
 
 ## Postazioni per reparto
-I reparti e le rispettive postazioni (reparto: n_postazioni) sono:
+Il programma gestisce i seguenti reparti e le rispettive postazioni (reparto: n_postazioni):
 
 ```
 {'207': 2, '208/218BIS': 2, '261/251': 2, '222': 2, '228': 6, '224': 1, '245': 2, '203': 2, 'PAGODA 209': 2, 'CEDRI 251': 3, '236': 2, '217': 2, '237': 2, '250': 1, '218': 1, 'PD': 4, 'PN': 3, 'SN': 1, '201 M': 1, '240 G': 1, '230 T': 2, '243': 7}
 ```
 
 ## Collaboratori
-I collaboratori sono:
+Il programma assegna i seguenti collaboratori:
 DONATO
 STRINA 
 QUARANTA MG
@@ -34,7 +32,7 @@ BRUNELLI
 NADDEI
 PRINCIPATO
 BRUNI
-RUGGIERO 
+RIGGIERO
 DARIMINI
 GIUSTI
 DONNARUMMA
@@ -77,30 +75,29 @@ SALADINO
 Suppl3
 Suppl4
 
-## Struttura dei dati
+## Struttura dei Dati
 Il programma organizza i dati con queste informazioni:
 collaboratore, reparto, periodo, turno
 
 ## Domeniche
-Il programma aggiunge anche le domeniche. Queste hanno lo stesso formato, ma "periodo" indica semplicemente la data di quella domenica.
+Il programma gestisce anche le domeniche. Queste hanno lo stesso formato, ma "periodo" indica semplicemente la data di quella domenica.
 Per la domenica ci sono 3 turni: mattina, pomeriggio e sera.
 Le domeniche vengono assegnate a rotazione su tutti i collaboratori esclusi ANGELONE, TRAMONTANA, CHIARION, RONCONI
-Il programma assicura che chi copre il turno sera della domenica non abbia il turno mattina per la settimana successiva.
+Il programma garantisce che chi copre il turno sera della domenica non abbia il turno mattina per la settimana successiva.
 
 ## Preferenze reparti
-- RUGGIERO, DARIMINI, GIUSTI, DONNARUMMA, CHIARION in reparto 228
-- TODISCO, QUARANTA S, ANGELONE in reparto CEDRI 251
+Il programma assegna:
+- RIGGIERO, DARIMINI, GIUSTI, DONNARUMMA, CHIARION al reparto 228
+- TODISCO, QUARANTA S, ANGELONE al reparto CEDRI 251
 
 ## Preferenze solo mattina
-COTRONEO, GRECO
+Il programma assegna COTRONEO, GRECO esclusivamente al turno mattina.
 
 ## Preferenze solo mattina e pomeriggio
-ANGELONE, TRAMONTANA, CHIARION, RONCONI
+Il programma assegna ANGELONE, TRAMONTANA, CHIARION, RONCONI esclusivamente ai turni mattina e pomeriggio.
 
 ## Portineria notturna
-Per il reparto PN ci sono 3 tipologie di turni: mattina, pomeriggio e sera. I collaboratori per questo reparto sono BRUNELLI, NADDEI, RUSSO. I turni vanno a rotazione settimanale.
+Per il reparto PN il programma gestisce 3 tipologie di turni: mattina, pomeriggio e sera. I collaboratori per questo reparto sono BRUNELLI, NADDEI, RUSSO. I turni vengono assegnati a rotazione settimanale.
 
 ## Output
-Il programma salva i dati generati in un file denominato turni.
-
-Il programma è pronto per l'esecuzione e genera il file di output automaticamente.
+Il programma salva i dati generati in un file pronto all'uso.
