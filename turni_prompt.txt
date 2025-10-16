@@ -4,17 +4,22 @@ Sarai responsabile per creare i turni di pulizie di una scuola, assegnando i col
 
 Voglio che tu crei un codice Python per generare un dataframe Pandas con il calendario della scuola.
 
-Ci sono in totale 51 collaboratori e 51 postazioni.
+Ci sono in totale 50 collaboratori e 51 postazioni.
 
 Ogni postazione appartiene ad un reparto, che comprende più postazioni.
 
 ## Turni
-I turni durante la settimana sono mattina o pomeriggio.
+
+### Turni Settimanali (Lunedì-Venerdì)
+**IMPORTANTE**: I turni settimanali possono essere SOLO "mattina" o "pomeriggio". Il turno "sera" NON esiste per i turni settimanali, con la SOLA ECCEZIONE del reparto PN (Portineria Notturna) che ha turni mattina, pomeriggio e sera.
+
 A rotazione un collaboratore di quel reparto sarà il responsabile per il turno della mattina per la settimana. 
-Inserisci una logica di rotazione che assegna settimanalmente il turno mattina ad uno tra i collaboratori di un reparto. 
+Inserisci una logica di rotazione che assegna settimanalmente il turno mattina ad uno tra i collaboratori di un reparto.
+
+**REGOLA FONDAMENTALE**: Tutti i collaboratori devono lavorare tutte le settimane. Questo significa che se un collaboratore ha restrizioni (ad esempio può fare solo turni mattina), deve comunque essere assegnato ogni settimana al turno consentito. Di conseguenza, un reparto può avere più collaboratori assegnati allo stesso turno (ad esempio più turni mattina) nella stessa settimana per garantire che tutti lavorino.
 
 ## Durata
-Crea un calendario per tutte le settimane dalla settimana 15-21 settembre 2025 alla settimana 29-5 Luglio 2026. L'identificativo della settimana deve essere "data del lunedì-data della domenica" eg "15/09/2025-21/09/2025"
+Crea un calendario per tutte le settimane dalla settimana 15-21 settembre 2025 alla settimana 29 giugno-5 luglio 2026. L'identificativo della settimana deve essere nel formato "data del lunedì-data del venerdì" eg "15/09/2025-19/09/2025"
 
 ## Postazioni per reparto
 Ecco in seguito i reparti e le rispettive postazioni (reparto: n_postazioni)
@@ -81,26 +86,56 @@ Suppl4
 Il dataframe deve avere queste colonne:
 collaboratore, reparto, periodo, turno
 
-## Domeniche
-Voglio anche aggiungere le domeniche. Queste avranno lo stesso formato, ma "periodo" indicherà semplicemente la data di quella domenica.
-Per la domenica ci sono 3 turni: mattina, pomeriggio e sera.
-Le domeniche vengono assegnate a rotazione su tutti i collaboratori esclusi ANGELONE, TRAMONTANA, CHIARION, RONCONI
-Devo assicurarmi che chi copre il turno sera della domenica non abbia il turno mattina per la settimana successiva.
+## Assegnazione Reparti ai Collaboratori
+Prima di generare i turni, devi assegnare ogni collaboratore ad un reparto specifico. Questo sarà il reparto abituale di lavoro del collaboratore e dovrà essere mantenuto costante in TUTTI i turni (settimanali e domenicali).
 
-## Preferenze reparti
-- RIGGIERO, DARIMINI, GIUSTI, DONNARUMMA, CHIARION in reparto 228
-- TODISCO, QUARANTA S, ANGELONE in reparto CEDRI 251
+**REGOLA FONDAMENTALE**: Ogni collaboratore deve avere UN SOLO reparto di assegnazione che rimane costante e invariato in tutte le righe del dataframe. Il campo "reparto" deve sempre indicare il reparto abituale del collaboratore, mai un valore generico come 'DOMENICA'.
+
+Considera le seguenti preferenze per l'assegnazione:
+- RIGGIERO, DARIMINI, GIUSTI, DONNARUMMA, CHIARION devono essere assegnati al reparto 228
+- TODISCO, QUARANTA S, ANGELONE devono essere assegnati al reparto CEDRI 251
+- BRUNELLI, NADDEI, RUSSO devono essere assegnati al reparto PN
+- Gli altri collaboratori devono essere distribuiti negli altri reparti in modo da rispettare il numero di postazioni per reparto
+
+## Domeniche
+Voglio anche aggiungere le domeniche. Queste avranno lo stesso formato, ma "periodo" indicherà semplicemente la data di quella domenica nel formato "gg/mm/aaaa".
+Per la domenica ci sono 3 turni: mattina, pomeriggio e sera.
+Le domeniche vengono assegnate a rotazione su tutti i collaboratori esclusi ANGELONE, TRAMONTANA, CHIARION, RONCONI.
+
+**CRUCIALE PER LE DOMENICHE**: Quando crei una riga per un turno domenicale, il campo "reparto" DEVE contenere il reparto abituale di assegnazione del collaboratore (lo stesso che appare nei suoi turni settimanali), NON un reparto generico chiamato 'DOMENICA' o qualsiasi altro valore speciale.
+
+## Vincolo Critico: Turno Sera Domenicale e Mattina Settimana Successiva
+**REGOLA OBBLIGATORIA**: Un collaboratore che lavora il turno "sera" della domenica NON può avere il turno "mattina" nella settimana immediatamente successiva (quella che inizia il lunedì dopo la domenica). Questo vincolo deve essere verificato e rispettato rigorosamente per ogni domenica del calendario.
+
+Implementa una logica di controllo che:
+1. Identifica i collaboratori assegnati al turno sera di ogni domenica
+2. Verifica che questi collaboratori NON siano assegnati al turno mattina della settimana successiva
+3. Se necessario, riassegna i turni per rispettare questo vincolo
 
 ## Preferenze solo mattina
-COTRONEO, GRECO
+COTRONEO, GRECO devono lavorare solo turni mattina (sia in settimana che la domenica, se assegnati). **Questi collaboratori devono comunque lavorare ogni settimana**, quindi devono essere assegnati al turno mattina in tutte le settimane.
 
 ## Preferenze solo mattina e pomeriggio
-ANGELONE, TRAMONTANA, CHIARION, RONCONI
+ANGELONE, TRAMONTANA, CHIARION, RONCONI non devono mai avere turni sera (e sono già esclusi dalle domeniche). **Questi collaboratori devono comunque lavorare ogni settimana**, quindi devono essere assegnati ai turni mattina o pomeriggio in tutte le settimane.
 
 ## Portineria notturna
-Per il reparto PN ci sono 3 tipologie di turni: mattina, pomeriggio e sera. I collaboratori per questo reparto devono essere BRUNELLI, NADDEI, RUSSO. I turni devono andare a rotazione settimanale.
+Per il reparto PN ci sono 3 tipologie di turni: mattina, pomeriggio e sera. I collaboratori per questo reparto devono essere BRUNELLI, NADDEI, RUSSO. I turni devono andare a rotazione settimanale. **Tutti e tre i collaboratori devono lavorare ogni settimana**, quindi ci saranno tre righe per il reparto PN ogni settimana (una per ogni turno).
 
 ## Output
 Il dataframe deve essere salvato come .csv con nome turni.csv
 
 Il codice deve essere pronto da eseguire e deve creare il file .csv
+
+## VALIDAZIONE FINALE OBBLIGATORIA
+
+Il codice deve implementare le seguenti verifiche e stamparle a console:
+
+1. **Turni Settimanali Corretti**: Verifica che per i turni settimanali (periodo con formato "gg/mm/aaaa-gg/mm/aaaa") NON esistano turni "sera", eccetto per il reparto PN
+2. **Consistenza Reparto**: Verifica che ogni collaboratore appaia sempre con lo stesso reparto in tutte le righe (sia turni settimanali che domenicali)
+3. **No Reparto Generico**: Verifica che NON esista alcuna riga con reparto='DOMENICA' o simili valori generici
+4. **Vincolo Sera-Mattina**: Verifica che nessun collaboratore con turno sera domenicale abbia il turno mattina nella settimana immediatamente successiva
+5. **Presenza Settimanale**: Verifica che ogni collaboratore appaia almeno una volta in ogni settimana del calendario (escluse le domeniche)
+6. **Riepilogo**: Stampa un riepilogo che mostri per ogni collaboratore il reparto assegnato e confermi che è consistente in tutto il file
+7. **Conferma Vincoli**: Stampa conferma che tutti i vincoli (preferenze orarie, esclusioni domenicali, rotazioni, presenza settimanale, turni settimanali corretti) sono stati rispettati
+
+Se una qualsiasi verifica fallisce, il codice deve stampare un messaggio di errore dettagliato indicando quale vincolo è stato violato.
