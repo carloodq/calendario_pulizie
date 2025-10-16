@@ -37,3 +37,4 @@ google-cloud-aiplatform
 langchain-google-genai
 streamlit-calendar
 reportlab
+openpyxl
