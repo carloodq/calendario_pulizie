@@ -172,50 +172,8 @@ if st.button("Modifica calendario"):
 #     print(result.stdout)
 
 
-# Use caching to avoid re-reading and processing data on every rerun
-@st.cache_data
-def load_and_process_data():
-    """Load CSV and perform all data processing once"""
-    df = pd.read_csv("turni.csv")
-    
-    # --- Expand date ranges (vectorized approach) ---
-    expanded_rows = []
-    for _, row in df.iterrows():
-        periodo = row["periodo"]
-        if "-" in periodo:
-            start, end = periodo.split("-")
-            dates = pd.date_range(
-                pd.to_datetime(start, dayfirst=True),
-                pd.to_datetime(end, dayfirst=True)
-            )
-        else:
-            dates = [pd.to_datetime(periodo, dayfirst=True)]
-        
-        for date in dates:
-            expanded_rows.append({
-                "collaboratore": row["collaboratore"],
-                "reparto": row["reparto"],
-                "data": date,
-                "turno": row["turno"]
-            })
-    
-    expanded_df = pd.DataFrame(expanded_rows)
-    
-    # --- Add weekday info ---
-    expanded_df["weekday"] = expanded_df["data"].dt.day_name()
-    
-    # --- Determine usual reparto ---
-    usual_reparto = (
-        expanded_df.groupby("collaboratore")["reparto"]
-        .agg(lambda x: x.mode()[0] if not x.mode().empty else None)
-    )
-    
-    # --- Fill Sunday reparto if missing ---
-    is_sunday = expanded_df["weekday"] == "Sunday"
-    expanded_df.loc[is_sunday & expanded_df["reparto"].isna(), "reparto"] = \
-        expanded_df.loc[is_sunday, "collaboratore"].map(usual_reparto)
-    
-    return df, expanded_df, usual_reparto
+
+
 
 @st.cache_data
 def calculate_domeniche(expanded_df):
@@ -229,46 +187,118 @@ def calculate_domeniche(expanded_df):
     )
     return domeniche
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# --- Add this at the top of your Streamlit app ---
+st.title("📅 Ecco il calendario creato")
+
+if st.button("🔄 Ricarica dati da CSV"):
+    st.cache_data.clear()
+    st.rerun()
+
+# --- Use caching to avoid re-reading and processing data on every rerun ---
+@st.cache_data
+def load_and_process_data():
+    df = pd.read_csv("turni.csv")
+
+    expanded_rows = []
+    for _, row in df.iterrows():
+        periodo = row["periodo"]
+        if "-" in periodo:
+            start, end = periodo.split("-")
+            dates = pd.date_range(
+                pd.to_datetime(start, dayfirst=True),
+                pd.to_datetime(end, dayfirst=True)
+            )
+        else:
+            dates = [pd.to_datetime(periodo, dayfirst=True)]
+
+        for date in dates:
+            expanded_rows.append({
+                "collaboratore": row["collaboratore"],
+                "reparto": row["reparto"],
+                "data": date,
+                "turno": row["turno"]
+            })
+
+    expanded_df = pd.DataFrame(expanded_rows)
+    expanded_df["weekday"] = expanded_df["data"].dt.day_name()
+
+    usual_reparto = (
+        expanded_df.groupby("collaboratore")["reparto"]
+        .agg(lambda x: x.mode()[0] if not x.mode().empty else None)
+    )
+
+    is_sunday = expanded_df["weekday"] == "Sunday"
+    expanded_df.loc[is_sunday & expanded_df["reparto"].isna(), "reparto"] = \
+        expanded_df.loc[is_sunday, "collaboratore"].map(usual_reparto)
+
+    return df, expanded_df, usual_reparto
+
 @st.cache_data
 def create_pivot_table(expanded_df):
-    """Create pivot table for calendar view"""
     pivot = expanded_df.pivot_table(
         index=["collaboratore", "reparto"],
         columns="data",
         values="turno",
         aggfunc="first"
     )
-    
+
     full_range = pd.date_range(expanded_df["data"].min(), expanded_df["data"].max())
     pivot = pivot.reindex(columns=full_range, fill_value=None)
     pivot.columns = [d.strftime("%d/%m/%Y") for d in pivot.columns]
-    
+
     return pivot
 
-# --- Load data once ---
 
+# --- Load data ---
 df, expanded_df, usual_reparto = load_and_process_data()
-
-
-
-
-# --- Display pivot table ---
-st.title("📅 Ecco il calendario creato")
 pivot = create_pivot_table(expanded_df)
 
+# --- Download as Excel ---
+def to_excel(df):
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=True, sheet_name='Orari')
+    return output.getvalue()
 
+excel_data = to_excel(pivot)
+st.download_button(
+    label="📥 Scarica Excel",
+    data=excel_data,
+    file_name="calendario_collaboratori.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
 
-
-
-
-
-
-
-
-
-
-# Display in Streamlit
+# --- Show data ---
 st.dataframe(pivot)
+
+
+
+
+
+
+
+
 
 
 
